@@ -16,6 +16,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Search from './pages/Search';
 import OnlyEmpPrivateRoute from './components/OnlyEmpPrivateRoute';
 import CreateJobs from './pages/CreateJobs';
+import Updatejob from './pages/UpdateJobs';
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
 
         <Route element={<OnlyEmpPrivateRoute />}>
           <Route path='/createjobs' element={<CreateJobs />} />
+          <Route path='/updatejob/:jobId' element={<Updatejob />} />
         </Route>
 
         

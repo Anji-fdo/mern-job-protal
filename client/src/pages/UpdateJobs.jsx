@@ -15,9 +15,10 @@ export default function CreateJob() {
     location: '',
   });
   const [publishError, setPublishError] = useState(null);
+  const { jobId } = useParams();
 
   const navigate = useNavigate();
-  
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -26,7 +27,30 @@ export default function CreateJob() {
 
   const handleQuillChange = (content) => {
     setFormData({ ...formData, description: content });
+    
   };
+
+  useEffect(() => {
+    try {
+      const fetchJob = async () => {
+        const res = await fetch(`/api/job/getjobs?jobId=${jobId}`);
+        const data = await res.json();
+        if (!res.ok) {
+          console.log(data.message);
+          setPublishError(data.message);
+          return;
+        }
+        if (res.ok) {
+          setPublishError(null);
+          setFormData(data.job[0]);
+        }
+      };
+
+      fetchJob();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, [jobId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,7 +79,7 @@ export default function CreateJob() {
 
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
-      <h1 className='text-center text-3xl my-7 font-semibold'>Create a Job</h1>
+      <h1 className='text-center text-3xl my-7 font-semibold'>Update a Job</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <TextInput
           type='text'

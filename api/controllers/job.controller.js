@@ -82,3 +82,29 @@ export const deletejobs = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updatejob = async (req, res, next) => {
+  if (!req.user.isEmp || req.user.id !== req.params.userId) {
+    return next(errorHandler(403, 'You are not allowed to update this post'));
+  }
+  try {
+    const updatedJob = await Job.findByIdAndUpdate(
+      req.params.jobId,
+      {
+        $set: {
+          title: req.body.title,
+          description: req.body.description,
+          category: req.body.category,
+          skills: req.body.skills,
+          companyName: req.body.companyName,
+          salary: req.body.salary,
+          location: req.body.location,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedJob);
+  } catch (error) {
+    next(error);
+  }
+};
