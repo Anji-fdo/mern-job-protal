@@ -7,7 +7,10 @@ export default function DashJobs() {
 
   const { currentUser } = useSelector((state) => state.user);
   const [userJobs, setUserJobs] = useState([]);
+  const [showMore, setShowMore] = useState(true);
+
   console.log(userJobs);
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -15,6 +18,9 @@ export default function DashJobs() {
         const data = await res.json();
         if (res.ok) {
           setUserJobs(data.job);
+          if (data.job.length < 9) {
+            setShowMore(false);
+          }
         }
       } catch (error) {
         console.log(error.message);
@@ -24,6 +30,24 @@ export default function DashJobs() {
       fetchJobs();
     }
   }, [currentUser._id]);
+
+  const handleShowMore = async () => {
+    const startIndex = userJobs.length;
+    try {
+      const res = await fetch(
+        `/api/job/getjobs?userId=${currentUser._id}&startIndex=${startIndex}`
+      );
+      const data = await res.json();
+      if (res.ok) {
+        setUserJobs((prev) => [...prev, ...data.job]);
+        if (data.job.length < 9) {
+          setShowMore(false);
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
 
   return (
@@ -74,6 +98,16 @@ export default function DashJobs() {
               </Table.Body>
             ))}
           </Table>
+
+          {showMore && (
+            <button
+              onClick={handleShowMore}
+              className='w-full text-teal-500 self-center text-sm py-7'
+            >
+              Show more
+            </button>
+          )}
+          
         </>
       ) : (
         <p>You have no jobs yet!</p>
