@@ -6,6 +6,7 @@ import DashPost from '../components/DashPost';
 import DashUsers from '../components/DashUsers';
 import DashComments from '../components/DashComments';
 import DashboardComp from '../components/DashboardComp';
+import DashJobs from '../components/DashJobs';
 
 export default function Dashboard() {
 
@@ -40,6 +41,9 @@ export default function Dashboard() {
 
        {/* dashboard comp */}
        {tab === 'dash' && <DashboardComp />}
+
+       {/* jobs... */}
+      {tab === 'job' && <DashJobs />}
 
     </div>
   );

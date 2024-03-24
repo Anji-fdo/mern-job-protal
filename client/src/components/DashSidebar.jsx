@@ -89,6 +89,18 @@ export default function DashSidebar() {
             </Link>
           )}
 
+          {currentUser.isEmp && (
+            <Link to='/dashboard?tab=job'>
+              <Sidebar.Item
+                active={tab === 'job'}
+                icon={HiDocumentText}
+                as='div'
+              >
+                Jobs
+              </Sidebar.Item>
+            </Link>
+          )}
+
           {currentUser.isAdmin && (
             <>
             <Link to='/dashboard?tab=users'>
