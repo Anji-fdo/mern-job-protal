@@ -4,29 +4,28 @@ import { errorHandler } from "../utils/error.js";
 import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res, next) => {
-    const {username, email, password } = req.body;
+  const { username, email, password, userType } = req.body;
 
-    if( !username || !email || !password || username === '' || email === '' || password === '' ) {
-        next(errorHandler(400, 'All fields are required'));
-    }
-    const hashedPassword = bcryptjs.hashSync(password, 10);
+  if (!username || !email || !password || !userType || username === '' || email === '' || password === '' || userType === '') {
+      next(errorHandler(400, 'All fields are required'));
+  }
+  const hashedPassword = bcryptjs.hashSync(password, 10);
 
-    const newUser = new User ({
-        username,
-        email,
-        password: hashedPassword,
-    });
+  const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      userType,
+  });
 
-    try{
-        await newUser.save();
-        res.json('Signup Successfull');
-
-    }catch(error){
-        next(error);
-    }
-
-   
+  try {
+      await newUser.save();
+      res.json('Signup Successful');
+  } catch (error) {
+      next(error);
+  }
 };
+
 
 export const signin = async (req, res, next) => {
     const { email, password } = req.body;
@@ -44,7 +43,7 @@ export const signin = async (req, res, next) => {
       if (!validPassword) {
         return next(errorHandler(400, 'Invalid password'));
       }
-      const token = jwt.sign({ id: validUser._id, isAdmin: validUser.isAdmin }, process.env.JWT_SECRET);
+      const token = jwt.sign({ id: validUser._id, isAdmin: validUser.isAdmin, isUser: validUser.isUser, isEmp: validUser.isEmp, isInst: validUser.isInst }, process.env.JWT_SECRET);
   
       const { password: pass, ...rest } = validUser._doc;
   
@@ -64,7 +63,7 @@ export const signin = async (req, res, next) => {
     try{
       const user = await User.findOne({email});
       if(user){
-        const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET);
+        const token = jwt.sign({id: user._id, isAdmin: user.isAdmin, isUser: validUser.isUser, isEmp: validUser.isEmp, isInst: validUser.isInst}, process.env.JWT_SECRET);
         const {password, ...rest} = user._doc;
         res.status(200).cookie('access_token', token, {
           httpOnly:true,
@@ -79,7 +78,7 @@ export const signin = async (req, res, next) => {
           profilePicture: googlePhotoUrl,
         });
         await newUser.save();
-        const token = jwt.sign({ id: newUser._id, isAdmin: newUser.isAdmin}, process.env.JWT_SECRET);
+        const token = jwt.sign({ id: newUser._id, isAdmin: newUser.isAdmin, isUser: validUser.isUser, isEmp: validUser.isEmp, isInst: validUser.isInst }, process.env.JWT_SECRET);
         const { pass, ...rest } = newUser._doc;
         res.status(200).cookie('access_token', token, { httpOnly : true,}).json(rest);
 

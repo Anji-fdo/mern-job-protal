@@ -35,12 +35,25 @@ export default function DashSidebar() {
       }
     };
 
+    const getProfileLabel = () => {
+      if (currentUser.isAdmin) {
+        return 'Admin';
+      } else if (currentUser.isEmp) {
+        return 'Employer';
+      } else if (currentUser.isInst) {
+        return 'Institute';
+      } else {
+        return 'User';
+      }
+    };
+    
+
     return (
         <Sidebar className='w-full md:w-56'>
           <Sidebar.Items>
           <Sidebar.ItemGroup className='flex flex-col gap-1'>
 
-          {currentUser && currentUser.isAdmin && (
+          {currentUser && (currentUser.isAdmin || currentUser.isEmp || currentUser.isInst) && (
             <Link to='/dashboard?tab=dash'>
               <Sidebar.Item
                 active={tab === 'dash' || !tab}
@@ -56,7 +69,7 @@ export default function DashSidebar() {
             <Sidebar.Item
               active={tab === 'profile'}
               icon={HiUser}
-              label={currentUser.isAdmin ? 'Admin' : 'User'}
+              label={getProfileLabel()}
               labelColor='dark'
               as='div'
             >

@@ -124,6 +124,7 @@ export default function DashProfile() {
     }
   };
 
+
   const handleSignout = async () => {
     try {
       const res = await fetch('/api/user/signout', {
@@ -137,6 +138,14 @@ export default function DashProfile() {
       }
     } catch (error) {
       console.log(error.message);
+    }
+  };
+
+  const redirectToCreatePost = () => {
+    if (currentUser.isEmp) {
+      return '/createjobs';
+    } else {
+      return '/createpost';
     }
   };
 
@@ -184,17 +193,17 @@ export default function DashProfile() {
           {loading ? 'Loading...' : 'Update'}
         </Button>
 
-        {currentUser.isAdmin && (
-          <Link to={'/createpost'}>
-            <Button
-              type='button'
-              gradientDuoTone='purpleToPink'
-              className='w-full'
-            >
-              Create a post
-            </Button>
-          </Link>
-        )}
+        {currentUser && (currentUser.isAdmin || currentUser.isUser || currentUser.isEmp || currentUser.isInst) && (
+            <Link to={redirectToCreatePost()}>
+              <Button
+                type='button'
+                gradientDuoTone='purpleToPink'
+                className='w-full'
+              >
+                {currentUser.isEmp ? 'Create a Job' : 'Create a Post'}
+              </Button>
+            </Link>
+          )}
 
       </form>
 

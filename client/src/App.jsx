@@ -14,6 +14,8 @@ import UpdatePost from './pages/UpdatePost';
 import PostPage from './pages/PostPage';
 import ScrollToTop from './components/ScrollToTop';
 import Search from './pages/Search';
+import OnlyEmpPrivateRoute from './components/OnlyEmpPrivateRoute';
+import CreateJobs from './pages/CreateJobs';
 
 export default function App() {
   return (
@@ -33,6 +35,10 @@ export default function App() {
         <Route element={<OnlyAdminPrivateRoute />}>
           <Route path='/createpost' element={<CreatePost />} />
           <Route path='/update-post/:postId' element={<UpdatePost />} />
+        </Route>
+
+        <Route element={<OnlyEmpPrivateRoute />}>
+          <Route path='/createjobs' element={<CreateJobs />} />
         </Route>
 
         
