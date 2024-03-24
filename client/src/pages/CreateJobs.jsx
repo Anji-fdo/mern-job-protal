@@ -45,7 +45,7 @@ export default function CreateJob() {
 
       if (res.ok) {
         setPublishError(null);
-        navigate(`/post/${data.slug}`);
+        navigate(`/job/${data.slug}`);
       }
     } catch (error) {
       setPublishError('Something went wrong');
