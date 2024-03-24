@@ -44,7 +44,7 @@ export default function Home() {
         <div className="flex gap-4">
         
           <Link
-            to=''
+            to='/searchjobs'
             className='text-xs sm:text-sm text-teal-500 font-bold hover:underline'
           >
             View all jobs
@@ -66,7 +66,7 @@ export default function Home() {
               ))}
             </div>
             <Link
-              to={''}
+              to={'/searchjobs'}
               className='text-lg text-teal-500 hover:underline text-center'
             >
               View all jobs
