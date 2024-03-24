@@ -18,6 +18,7 @@ import OnlyEmpPrivateRoute from './components/OnlyEmpPrivateRoute';
 import CreateJobs from './pages/CreateJobs';
 import Updatejob from './pages/UpdateJobs';
 import JobPage from './pages/JobPage';
+import Jobs from './pages/Jobs';
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path='/search' element={<Search />} />
+        <Route path='/jobs' element={<Jobs />} />
         
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
