@@ -32,7 +32,7 @@ export default function CreateJob() {
 
   useEffect(() => {
     try {
-      const fetchJob = async () => {
+      const fetchJobs = async () => {
         const res = await fetch(`/api/job/getjobs?jobId=${jobId}`);
         const data = await res.json();
         if (!res.ok) {
@@ -46,7 +46,7 @@ export default function CreateJob() {
         }
       };
 
-      fetchJob();
+      fetchJobs();
     } catch (error) {
       console.log(error.message);
     }

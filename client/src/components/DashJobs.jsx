@@ -3,21 +3,18 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import { set } from 'mongoose';
 
 export default function DashJobs() {
-
   const { currentUser } = useSelector((state) => state.user);
   const [userJobs, setUserJobs] = useState([]);
   const [showMore, setShowMore] = useState(true);
-
   const [showModal, setShowModal] = useState(false);
   const [jobIdToDelete, setJobIdToDelete] = useState('');
 
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await fetch(`/api/job/getjobs?userId=${currentUser._id}`);
+        const res = await fetch(`/api/job/getjobs`);
         const data = await res.json();
         if (res.ok) {
           setUserJobs(data.job);
@@ -29,10 +26,9 @@ export default function DashJobs() {
         console.log(error.message);
       }
     };
-    if (currentUser.isAdmin || currentUser.isEmp ) {
-      fetchJobs();
-    }
-  }, [currentUser._id]);
+  
+    fetchJobs();
+  }, []);
 
   const handleShowMore = async () => {
     const startIndex = userJobs.length;
@@ -74,6 +70,7 @@ export default function DashJobs() {
     }
   };
 
+  
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
@@ -82,7 +79,6 @@ export default function DashJobs() {
           <Table hoverable className='shadow-md'>
             <Table.Head>
               <Table.HeadCell>Date updated</Table.HeadCell>
-              
               <Table.HeadCell>Job title</Table.HeadCell>
               <Table.HeadCell>Category</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
@@ -91,16 +87,15 @@ export default function DashJobs() {
               </Table.HeadCell>
             </Table.Head>
             {userJobs.map((job) => (
-              <Table.Body className='divide-y'>
+              <Table.Body className='divide-y' key={job._id}>
                 <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                   <Table.Cell>
                     {new Date(job.updatedAt).toLocaleDateString()}
                   </Table.Cell>
-                  
                   <Table.Cell>
                     <Link
                       className='font-medium text-gray-900 dark:text-white'
-                      to={`/job/${job.slug}`}
+                      to={`/job/${job.slug}`} 
                     >
                       {job.title}
                     </Link>
@@ -108,13 +103,13 @@ export default function DashJobs() {
                   <Table.Cell>{job.category}</Table.Cell>
                   <Table.Cell>
                     <span
-                        onClick={() => {
-                          setShowModal(true);
-                          setJobIdToDelete(job._id);
-                        }}
-                        className='font-medium text-red-500 hover:underline cursor-pointer'
-                      >
-                        Delete
+                      onClick={() => {
+                        setShowModal(true);
+                        setJobIdToDelete(job._id);
+                      }}
+                      className='font-medium text-red-500 hover:underline cursor-pointer'
+                    >
+                      Delete
                     </span>
                   </Table.Cell>
                   <Table.Cell>
@@ -168,7 +163,6 @@ export default function DashJobs() {
           </div>
         </Modal.Body>
       </Modal>
-
     </div>
   );
 }

@@ -17,6 +17,7 @@ import Search from './pages/Search';
 import OnlyEmpPrivateRoute from './components/OnlyEmpPrivateRoute';
 import CreateJobs from './pages/CreateJobs';
 import Updatejob from './pages/UpdateJobs';
+import JobPage from './pages/JobPage';
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
         
         <Route path="/projects" element={<Projects />} />
         <Route path='/post/:postSlug' element={<PostPage />} />
+        <Route path='/job/:jobSlug' element={<JobPage />} />
       </Routes>
       <Footer/>
     </BrowserRouter>

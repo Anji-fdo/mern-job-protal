@@ -4,10 +4,10 @@ import { create, getjobs, deletejobs, updatejob } from '../controllers/job.contr
 
 const router = express.Router();
 
-router.post('/create', verifyToken, create)
-router.get('/getjobs', getjobs)
-router.put('/deletejobs/:jobId/:userId', verifyToken, deletejobs)
-router.put('/updatejob/:jobId/:userId', verifyToken, updatejob)
-
+router.post('/create', verifyToken, create);
+router.get('/getjobs', verifyToken, getjobs); // Update route here
+router.delete('/deletejobs/:jobId/:userId', verifyToken, deletejobs); // Fix method here
+router.put('/updatejob/:jobId/:userId', verifyToken, updatejob); // Fix method here
 
 export default router;
+
