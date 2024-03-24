@@ -2,7 +2,7 @@ import { Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
-import PostCard from '../components/PostCard';
+import JobCard from '../components/JobCard';
 
 export default function JobPage() {
     const { jobSlug } = useParams();
@@ -80,18 +80,18 @@ export default function JobPage() {
         dangerouslySetInnerHTML={{ __html: job && job.description }}
       >
         </div>
-        
+
         <div className='max-w-4xl mx-auto w-full'>
             <CallToAction />
         </div>
       
 
       <div className='flex flex-col justify-center items-center mb-5'>
-        <h1 className='text-xl mt-5'>Recent articles</h1>
+        <h1 className='text-xl mt-5'>Recent jobs</h1>
         <div className='flex flex-wrap gap-5 mt-5 justify-center'>
           {recentJobs &&
             recentJobs.map((job) => (
-              <PostCard key={job._id} job={job} className='flex-shrink-0' />
+              <JobCard key={job._id} job={job} className='flex-shrink-0' />
             ))}
         </div>
 
