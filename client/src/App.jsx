@@ -23,6 +23,7 @@ import SearchJobs from './pages/SearchJobs';
 import OnlyCoursePrivateRoute from './components/OnlyCoursePrivateRoute';
 import CreateCourse from './pages/CreateCourse';
 import UpdateCourse from './pages/UpdateCourse';
+import CoursePage from './pages/CoursePage';
 
 export default function App() {
   return (
@@ -61,6 +62,9 @@ export default function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path='/post/:postSlug' element={<PostPage />} />
         <Route path='/job/:jobSlug' element={<JobPage />} />
+        <Route path='/course/:courseSlug' element={<CoursePage />} />
+        
+
       </Routes>
       <Footer/>
     </BrowserRouter>
