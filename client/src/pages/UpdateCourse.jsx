@@ -8,21 +8,40 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 import { app } from '../Firebase';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-export default function CreateCourse() {
-
+export default function UpdateCourse() {
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
-
+  const { courseId } = useParams();
   const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.user);
 
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const res = await fetch(`/api/course/getcourse?courseId=${courseId}`);
+        const data = await res.json();
+        if (!res.ok) {
+          setPublishError(data.message);
+          return;
+        }
+        setPublishError(null);
+        setFormData(data.course[0]);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchCourse();
+  }, [courseId]);
 
   const handleUpdloadImage = async () => {
     try {
@@ -64,23 +83,23 @@ export default function CreateCourse() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/course/createcourse', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `/api/course/updatecourse/${courseId}/${currentUser._id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         setPublishError(data.message);
         return;
       }
-
-      if (res.ok) {
-        setPublishError(null);
-        navigate(`/course/${data.slug}`);
-      }
+      setPublishError(null);
+      navigate(`/course/${data.slug}`);
     } catch (error) {
       setPublishError('Something went wrong');
     }
@@ -88,7 +107,7 @@ export default function CreateCourse() {
 
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
-      <h1 className='text-center text-3xl my-7 font-semibold'>Create a course</h1>
+      <h1 className='text-center text-3xl my-7 font-semibold'>Update course</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-4 sm:flex-row justify-between'>
           <TextInput
@@ -100,6 +119,7 @@ export default function CreateCourse() {
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
             }
+            value={formData.title}
           />
           <TextInput
             type='text'
@@ -110,12 +130,14 @@ export default function CreateCourse() {
             onChange={(e) =>
               setFormData({ ...formData, instituteName: e.target.value })
             }
+            value={formData.instituteName}
           />
 
            <Select
             onChange={(e) =>
               setFormData({ ...formData, level: e.target.value })
             }
+            value={formData.level}
           >
             <option value='uncategorized'>Select a level</option>
             <option value='diploma'>Diploma</option>
@@ -127,6 +149,7 @@ export default function CreateCourse() {
 
         <ReactQuill
           theme='snow'
+          value={formData.description}
           placeholder='Description...'
           className='h-42 mb-12'
           required
@@ -171,6 +194,7 @@ export default function CreateCourse() {
 
         <ReactQuill
           theme='snow'
+          value={formData.about}
           placeholder='Write about course...'
           className='h-72 mb-12'
           required
@@ -188,10 +212,11 @@ export default function CreateCourse() {
             onChange={(e) =>
               setFormData({ ...formData, price: e.target.value })
             }
+            value={formData.price}
           />
 
         <Button type='submit' gradientDuoTone='purpleToPink'>
-          Publish
+          Update Course
         </Button>
 
         {publishError && (

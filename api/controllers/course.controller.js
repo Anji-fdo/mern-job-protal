@@ -1,5 +1,6 @@
 import Course from '../models/course.model.js'
 import { errorHandler } from '../utils/error.js';
+import mongoose from 'mongoose';
 
 export const create = async (req, res, next) => {
   if (!req.user.isInst) {
@@ -88,10 +89,16 @@ export const deletecourse = async (req, res, next) => {
 };
 
 export const updatecourse = async (req, res, next) => {
-  if (!req.user.isInst || req.user.id !== req.params.userId) {
-    return next(errorHandler(403, 'You are not allowed to update this course'));
-  }
   try {
+    if (!req.user.isInst || req.user.id !== req.params.userId) {
+      return next(errorHandler(403, 'You are not allowed to update this course'));
+    }
+
+    // Check if courseId is valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(req.params.courseId)) {
+      return next(errorHandler(400, 'Invalid courseId'));
+    }
+
     const updatedCourse = await Course.findByIdAndUpdate(
       req.params.courseId,
       {

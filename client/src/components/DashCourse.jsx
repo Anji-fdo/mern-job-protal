@@ -130,7 +130,7 @@ export default function DashCourse() {
                                 <Table.Cell>
                                     <Link
                                         className='text-teal-500 hover:underline'
-                                        to={`/update-course/${course._id}`}
+                                        to={`/updatecourse/${course._id}`}
                                     >
                                         <span>Edit</span>
                                     </Link>

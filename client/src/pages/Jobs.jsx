@@ -3,7 +3,7 @@ import CallToAction from '../components/CallToAction';
 import { useEffect, useState } from 'react';
 import JobCard from '../components/JobCard';
 
-export default function Home() {
+export default function Jobs() {
 
   const [job, setJob] = useState([]);
 

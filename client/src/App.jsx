@@ -22,6 +22,7 @@ import Jobs from './pages/Jobs';
 import SearchJobs from './pages/SearchJobs';
 import OnlyCoursePrivateRoute from './components/OnlyCoursePrivateRoute';
 import CreateCourse from './pages/CreateCourse';
+import UpdateCourse from './pages/UpdateCourse';
 
 export default function App() {
   return (
@@ -52,6 +53,7 @@ export default function App() {
 
         <Route element={<OnlyCoursePrivateRoute />}>
           <Route path='/createcourse' element={<CreateCourse />} />
+          <Route path='/updatecourse/:courseId' element={<UpdateCourse />} />
           
         </Route>
 
