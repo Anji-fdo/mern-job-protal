@@ -20,6 +20,8 @@ import Updatejob from './pages/UpdateJobs';
 import JobPage from './pages/JobPage';
 import Jobs from './pages/Jobs';
 import SearchJobs from './pages/SearchJobs';
+import OnlyCoursePrivateRoute from './components/OnlyCoursePrivateRoute';
+import CreateCourse from './pages/CreateCourse';
 
 export default function App() {
   return (
@@ -46,6 +48,11 @@ export default function App() {
         <Route element={<OnlyEmpPrivateRoute />}>
           <Route path='/createjobs' element={<CreateJobs />} />
           <Route path='/updatejob/:jobId' element={<Updatejob />} />
+        </Route>
+
+        <Route element={<OnlyCoursePrivateRoute />}>
+          <Route path='/createcourse' element={<CreateCourse />} />
+          
         </Route>
 
         

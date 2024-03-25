@@ -144,6 +144,9 @@ export default function DashProfile() {
   const redirectToCreatePost = () => {
     if (currentUser.isEmp) {
       return '/createjobs';
+    }
+    if (currentUser.isInst) {
+      return '/createcourse';
     } else {
       return '/createpost';
     }
@@ -193,17 +196,20 @@ export default function DashProfile() {
           {loading ? 'Loading...' : 'Update'}
         </Button>
 
-        {currentUser && (currentUser.isAdmin || currentUser.isUser || currentUser.isEmp || currentUser.isInst) && (
+        {currentUser && (
             <Link to={redirectToCreatePost()}>
               <Button
                 type='button'
                 gradientDuoTone='purpleToPink'
                 className='w-full'
               >
-                {currentUser.isEmp ? 'Create a Job' : 'Create a Post'}
+                {currentUser.isAdmin && 'Create a Post'}
+                {currentUser.isEmp && 'Create a Job'}
+                {currentUser.isInst && 'Create a Course'}
               </Button>
             </Link>
           )}
+
 
       </form>
 

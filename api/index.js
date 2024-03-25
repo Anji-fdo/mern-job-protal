@@ -7,6 +7,7 @@ import postRoutes from './routes/post.routes.js';
 import cookieParser from 'cookie-parser';
 import commentRoutes from './routes/comment.route.js';
 import jobRoutes from './routes/job.routes.js';
+import courseRoutes from './routes/course.routes.js';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 app.use('/api/job', jobRoutes);
+app.use('/api/course', courseRoutes);
 
 app.use((err, req, res, next) =>{
     const statusCode = err.statusCode || 500;
