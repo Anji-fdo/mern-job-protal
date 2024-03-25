@@ -45,7 +45,7 @@ export default function Home() {
           </Link>
 
           <Link
-            to='/'
+            to='/course'
             className='text-xs sm:text-sm text-teal-500 font-bold hover:underline'
           >
             View all courses

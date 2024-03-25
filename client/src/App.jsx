@@ -25,6 +25,7 @@ import CreateCourse from './pages/CreateCourse';
 import UpdateCourse from './pages/UpdateCourse';
 import CoursePage from './pages/CoursePage';
 import Course from './pages/Course';
+import SearchCourse from './pages/SearchCourse';
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
         <Route path='/jobs' element={<Jobs />} />
         <Route path='/course' element={<Course />} />
         <Route path='/searchjobs' element={<SearchJobs />} />
+        <Route path='/searchcourse' element={<SearchCourse />} />
         
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />

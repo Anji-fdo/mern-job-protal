@@ -36,23 +36,39 @@ export const getcourse = async (req, res, next) => {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.order === 'asc' ? 1 : -1;
-    const course = await Course.find({
-      ...(req.query.userId && { userId: req.query.userId }),
-      ...(req.query.category && { category: req.query.category }),
-      ...(req.query.slug && { slug: req.query.slug }),
-      ...(req.query.courseId && { _id: req.query.courseId }),
-      ...(req.query.searchTerm && {
-        $or: [
-          { title: { $regex: req.query.searchTerm, $options: 'i' } },
-          { description: { $regex: req.query.searchTerm, $options: 'i' } },
-        ],
-      }),
-    }).sort({ updatedAt: sortDirection }).skip(startIndex).limit(limit);
+    
+    const queryFilters = {};
 
-    const totalCourse = await Course.countDocuments();
+    if (req.query.userId) {
+      queryFilters.userId = req.query.userId;
+    }
+    if (req.query.category) {
+      queryFilters.category = req.query.category;
+    }
+    if (req.query.slug) {
+      queryFilters.slug = req.query.slug;
+    }
+    if (req.query.courseId) {
+      queryFilters._id = req.query.courseId;
+    }
+    if (req.query.searchTerm) {
+      queryFilters.$or = [
+        { title: { $regex: req.query.searchTerm, $options: 'i' } },
+        { description: { $regex: req.query.searchTerm, $options: 'i' } },
+      ];
+    }
+    if (req.query.level && req.query.level !== 'uncategorized') {
+      queryFilters.level = req.query.level;
+    }
+
+    const course = await Course.find(queryFilters)
+      .sort({ updatedAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
+
+    const totalCourse = await Course.countDocuments(queryFilters);
 
     const now = new Date();
-
     const oneMonthAgo = new Date(
       now.getFullYear(),
       now.getMonth() - 1,
@@ -60,6 +76,7 @@ export const getcourse = async (req, res, next) => {
     );
 
     const lastMonthCourse = await Course.countDocuments({
+      ...queryFilters,
       createdAt: { $gte: oneMonthAgo },
     });
 
@@ -72,6 +89,7 @@ export const getcourse = async (req, res, next) => {
     next(error);
   }
 };
+
 
 
 
