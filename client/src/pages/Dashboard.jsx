@@ -7,6 +7,7 @@ import DashUsers from '../components/DashUsers';
 import DashComments from '../components/DashComments';
 import DashboardComp from '../components/DashboardComp';
 import DashJobs from '../components/DashJobs';
+import DashCourse from '../components/DashCourse';
 
 export default function Dashboard() {
 
@@ -44,6 +45,9 @@ export default function Dashboard() {
 
        {/* jobs... */}
       {tab === 'job' && <DashJobs />}
+       
+       {/* course... */}
+      {tab === 'course' && <DashCourse />}
 
     </div>
   );

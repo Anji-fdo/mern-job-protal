@@ -101,6 +101,18 @@ export default function DashSidebar() {
             </Link>
           )}
 
+          {currentUser.isInst && (
+            <Link to='/dashboard?tab=course'>
+              <Sidebar.Item
+                active={tab === 'course'}
+                icon={HiDocumentText}
+                as='div'
+              >
+                Courses
+              </Sidebar.Item>
+            </Link>
+          )}
+
           {currentUser.isAdmin && (
             <>
             <Link to='/dashboard?tab=users'>
