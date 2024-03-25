@@ -2,12 +2,14 @@ import { Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
+import CourseCard from '../components/CourseCard';
 
 export default function CoursePage() {
   const { courseSlug } = useParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [course, setCourse] = useState(null);
+  const [recentCourse, setRecentCourse] = useState(null);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -33,6 +35,21 @@ export default function CoursePage() {
     fetchCourse();
   }, [courseSlug]);
 
+  useEffect(() => {
+    try {
+      const fetchRecentCourse = async () => {
+        const res = await fetch(`/api/course/getcourse?limit=3`);
+        const data = await res.json();
+        if (res.ok) {
+          setRecentCourse(data.course);
+        }
+      };
+      fetchRecentCourse();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, []);
+
   if (loading)
     return (
       <div className='flex justify-center items-center min-h-screen'>
@@ -56,6 +73,14 @@ export default function CoursePage() {
     <div className="max-w-4xl mx-auto w-full">
         <CallToAction />
     </div>
-    
+
+    <div className='flex flex-col justify-center items-center mb-5'>
+        <h1 className='text-xl mt-5'>Explore courses</h1>
+        <div className='flex flex-wrap gap-5 mt-5 justify-center'>
+          {recentCourse &&
+            recentCourse.map((course) => <CourseCard key={course._id} course={course} />)}
+        </div>
+      </div>
+
   </main>;
 }

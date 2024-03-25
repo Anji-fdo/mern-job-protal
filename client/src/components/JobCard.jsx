@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function PostCard({ job }) {
+export default function JobCard({ job }) {
     return (
       <div className='group relative w-full border border-teal-500 hover:border-2 h-[300px] overflow-hidden rounded-lg sm:w-[300px] transition-all'>
         
