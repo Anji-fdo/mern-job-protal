@@ -1,7 +1,7 @@
-import Course from '../models/course.model.js';
+import Course from '../models/course.model.js'
 import { errorHandler } from '../utils/error.js';
 
-export const createcourse = async (req, res, next) => {
+export const create = async (req, res, next) => {
   if (!req.user.isInst) {
     return next(errorHandler(403, 'You are not allowed to create a course'));
   }
@@ -35,37 +35,37 @@ export const getcourse = async (req, res, next) => {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.order === 'asc' ? 1 : -1;
-    const searchTermss = req.query.searchTermss; // Corrected variable name
     const course = await Course.find({
-      ...(searchTermss && {
-        $or: [
-          { title: { $regex: searchTermss, $options: 'i' } },
-          { level: { $regex: searchTermss, $options: 'i' } },
-        ],
-      }),
       ...(req.query.userId && { userId: req.query.userId }),
-      ...(req.query.level && { category: req.query.level }),
+      ...(req.query.category && { category: req.query.category }),
       ...(req.query.slug && { slug: req.query.slug }),
       ...(req.query.courseId && { _id: req.query.courseId }),
+      ...(req.query.searchTerm && {
+        $or: [
+          { title: { $regex: req.query.searchTerm, $options: 'i' } },
+          { description: { $regex: req.query.searchTerm, $options: 'i' } },
+        ],
+      }),
     }).sort({ updatedAt: sortDirection }).skip(startIndex).limit(limit);
 
-    const totalCourses = await Course.countDocuments();
+    const totalCourse = await Course.countDocuments();
 
     const now = new Date();
+
     const oneMonthAgo = new Date(
       now.getFullYear(),
       now.getMonth() - 1,
       now.getDate()
     );
 
-    const lastMonthCourses = await Course.countDocuments({
+    const lastMonthCourse = await Course.countDocuments({
       createdAt: { $gte: oneMonthAgo },
     });
 
     res.status(200).json({
       course,
-      totalCourses,
-      lastMonthCourses,
+      totalCourse,
+      lastMonthCourse,
     });
   } catch (error) {
     next(error);
