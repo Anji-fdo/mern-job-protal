@@ -24,6 +24,7 @@ import OnlyCoursePrivateRoute from './components/OnlyCoursePrivateRoute';
 import CreateCourse from './pages/CreateCourse';
 import UpdateCourse from './pages/UpdateCourse';
 import CoursePage from './pages/CoursePage';
+import Course from './pages/Course';
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path='/search' element={<Search />} />
         <Route path='/jobs' element={<Jobs />} />
+        <Route path='/course' element={<Course />} />
         <Route path='/searchjobs' element={<SearchJobs />} />
         
         <Route element={<PrivateRoute />}>
