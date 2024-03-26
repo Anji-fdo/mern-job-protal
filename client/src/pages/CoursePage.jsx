@@ -1,6 +1,6 @@
 import { Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
 import CourseCard from '../components/CourseCard';
 
@@ -10,6 +10,7 @@ export default function CoursePage() {
   const [error, setError] = useState(false);
   const [course, setCourse] = useState(null);
   const [recentCourse, setRecentCourse] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -50,27 +51,50 @@ export default function CoursePage() {
     }
   }, []);
 
+  const handleEnroll = () => {
+    // Redirect to the checkout page
+    navigate('/checkout');
+  };
+
+
   if (loading)
     return (
       <div className='flex justify-center items-center min-h-screen'>
         <Spinner size='xl' />
       </div>
     );
+
   return <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
     <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>{course && course.title}</h1>
     <Link to={`/searchcourse?level=${course && course.level}`} className='self-center mt-5'>
-    <Button color='gray' pill size='xs'>{course && course.level}</Button>
+     <Button  color='gray' pill size='xs'>{course && course.level}</Button>
     </Link>
+    
+    <Link to={`/searchcourse?instituteName=${course && course.instituteName}`} className='self-center mt-5'>
+        <span  className='text-blue-500 text-xl' color='gray' pill size='lg'>By : {course && course.instituteName}</span>
+    </Link>
+
+    <span className="text-2xl font-bold text-blue-600">Price : ${course && course.price}</span>
+
     <img src={course && course.image} alt={course && course.title} className='mt-10 p-3 max-h-[600px] w-full object-cover'/>
     <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
-        <span>{course && new Date(course.createdAt).toLocaleDateString()}</span>
-        <span className='italic'>{course && (course.about.length /1000).toFixed(0)} mins read</span>
+        <span>Published date : {course && new Date(course.createdAt).toLocaleDateString()}</span>
+      
+        
     </div>
     <div className='p-3 max-w-2xl mx-auto w-full post-content' dangerouslySetInnerHTML={{__html: course && course.about}}>
 
     </div>
 
-    <div className="max-w-4xl mx-auto w-full">
+    <div className='flex justify-center items-center my-5'> {/* Center the items and add margin */}
+      <span className="text-2xl font-bold text-blue-600 mr-4">Price: ${course && course.price}</span> {/* Add margin to the right */}
+      <Button color='blue' pill size='lg' onClick={handleEnroll}> {/* Increase the size of the button */}
+        Enroll now
+      </Button>
+    </div>
+
+
+    <div className="max-w-4xl mx-auto w-full mb-5">
         <CallToAction />
     </div>
 

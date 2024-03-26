@@ -26,12 +26,18 @@ import UpdateCourse from './pages/UpdateCourse';
 import CoursePage from './pages/CoursePage';
 import Course from './pages/Course';
 import SearchCourse from './pages/SearchCourse';
+import CheckoutPage from './pages/CheckoutPage'; // Import CheckoutPage
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+// Load your Stripe public key
+const stripePromise = loadStripe('your_stripe_public_key_here');
 
 export default function App() {
   return (
     <BrowserRouter>
-    <ScrollToTop />
-    <Header/>
+      <ScrollToTop />
+      <Header/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -62,16 +68,19 @@ export default function App() {
           
         </Route>
 
-        
+        {/* Route for CheckoutPage */}
+        <Route path="/checkout" element={
+          <Elements stripe={stripePromise}>
+            <CheckoutPage />
+          </Elements>
+        } />
+
         <Route path="/projects" element={<Projects />} />
         <Route path='/post/:postSlug' element={<PostPage />} />
         <Route path='/job/:jobSlug' element={<JobPage />} />
         <Route path='/course/:courseSlug' element={<CoursePage />} />
-        
-
       </Routes>
       <Footer/>
     </BrowserRouter>
   );
 }
-
