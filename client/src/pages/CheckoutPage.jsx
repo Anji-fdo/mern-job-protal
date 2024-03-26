@@ -2,6 +2,8 @@ import { Select, Spinner, Label, TextInput } from 'flowbite-react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { FaCreditCard } from 'react-icons/fa';
+import { PayPalButton } from "react-paypal-button-v2";
 
 export default function CheckoutPage() {
     const { courseSlug } = useParams();
@@ -83,6 +85,22 @@ export default function CheckoutPage() {
         <Spinner size='xl' />
       </div>
     );
+
+    const handlePaymentSuccess = (details, data) => {
+      // Handle payment success
+      console.log("Payment successful", details);
+    };
+  
+    const handlePaymentError = (error) => {
+      // Handle payment error
+      console.error("Payment error", error);
+    };
+  
+    const handlePaymentCancel = (data) => {
+      // Handle payment cancellation
+      console.log("Payment cancelled", data);
+    };
+
   
   return <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
     <div className="container mx-auto mt-10 p-2">
@@ -129,9 +147,9 @@ export default function CheckoutPage() {
         
         <h2 className="text-lg font-bold mb-3">Payment Method</h2>
 
-        <div className='flex-wrap mx-auto border border-gray-500 rounded-lg  p-6 mb-8 gap-5'>
+        <div className='flex-wrap mx-auto border border-gray-500 rounded-lg  p-7 mb-8 gap-5'>
 
-        <h2 className="text-lg font-bold mb-3">Card</h2>
+        <h2 className="flex-wrap text-lg font-bold mb-3 gap-7"><FaCreditCard className="inline-block mr-2" />Card</h2>
 
           {/* Custom input components for card details, expiration date, and CVV */}
 
@@ -153,7 +171,21 @@ export default function CheckoutPage() {
           </div>
 
           </div>
+          
+         
           </div>
+          <div>
+              {/* PayPal payment button */}
+            <PayPalButton
+              amount={10.00} // Replace with the actual amount
+              onSuccess={handlePaymentSuccess}
+              onError={handlePaymentError}
+              onCancel={handlePaymentCancel}
+            />
+          
+          </div>
+          
+
 
           <span >I agree to the Terms of Use Refund Policy, and Privacy Policy.</span>
 

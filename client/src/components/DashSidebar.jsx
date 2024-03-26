@@ -1,5 +1,5 @@
 import { Sidebar } from 'flowbite-react';
-import { HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup,  HiAnnotation, HiChartPie, } from 'react-icons/hi';
+import { HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup,  HiAnnotation, HiChartPie, HiBriefcase, HiBookOpen,} from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { signoutSuccess } from '../redux/user/userSlice';
@@ -53,7 +53,7 @@ export default function DashSidebar() {
           <Sidebar.Items>
           <Sidebar.ItemGroup className='flex flex-col gap-1'>
 
-          {currentUser && (currentUser.isAdmin || currentUser.isEmp || currentUser.isInst) && (
+          {currentUser.isAdmin  && (
             <Link to='/dashboard?tab=dash'>
               <Sidebar.Item
                 active={tab === 'dash' || !tab}
@@ -89,11 +89,11 @@ export default function DashSidebar() {
             </Link>
           )}
 
-          {currentUser.isEmp && (
+          {currentUser && (currentUser.isAdmin || currentUser.isEmp )  && (
             <Link to='/dashboard?tab=job'>
               <Sidebar.Item
                 active={tab === 'job'}
-                icon={HiDocumentText}
+                icon={HiBriefcase}
                 as='div'
               >
                 Jobs
@@ -101,11 +101,11 @@ export default function DashSidebar() {
             </Link>
           )}
 
-          {currentUser.isInst && (
+          {currentUser && (currentUser.isAdmin || currentUser.isInst) && (
             <Link to='/dashboard?tab=course'>
               <Sidebar.Item
                 active={tab === 'course'}
-                icon={HiDocumentText}
+                icon={HiBookOpen}
                 as='div'
               >
                 Courses
