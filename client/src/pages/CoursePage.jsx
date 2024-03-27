@@ -76,7 +76,13 @@ export default function CoursePage() {
 
     <span className="text-2xl font-bold text-blue-600">Price : ${course && course.price}</span>
 
-    <img src={course && course.image} alt={course && course.title} className='mt-10 p-3 max-h-[600px] w-full object-cover'/>
+    
+    <p className='mt-10 p-3 max-w-6xl text-center mx-auto w-full font-black font-serif post-content' dangerouslySetInnerHTML={{ __html: course && course.description }} />
+
+    <div className='mt-10 p-3 flex justify-center'>
+     <img src={course && course.image} alt={course && course.title} className=' max-w-[600px] h-auto object-cover'/>
+     </div>
+     
     <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
         <span>Published date : {course && new Date(course.createdAt).toLocaleDateString()}</span>
       
@@ -86,9 +92,9 @@ export default function CoursePage() {
 
     </div>
 
-    <div className='flex justify-center items-center my-5'> {/* Center the items and add margin */}
-      <span className="text-2xl font-bold text-blue-600 mr-4">Price: ${course && course.price}</span> {/* Add margin to the right */}
-      <Button color='blue' pill size='lg' onClick={handleEnroll}> {/* Increase the size of the button */}
+    <div className='flex justify-center items-center my-5'>
+      <span className="text-2xl font-bold text-blue-600 mr-4">Price: ${course && course.price}</span> 
+      <Button color='blue' pill size='lg' onClick={handleEnroll}> 
         Enroll now
       </Button>
     </div>

@@ -47,6 +47,7 @@ export default function SignUp() {
       setErrorMessage(error.message);
       setLoading(false);
     }
+    localStorage.setItem('userType', userType);
   };
 
   return (

@@ -52,7 +52,7 @@ export default function DashJobs() {
     setShowModal(false);
     try {
       const res = await fetch(
-        `/api/job/deletejobs/${jobIdToDelete}/${currentUser._id}`,
+        `/api/job/deletejobs/${jobIdToDelete}/${currentUser._id || currentUser.isAdmin}`,
         {
           method: 'DELETE',
         }

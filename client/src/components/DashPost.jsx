@@ -11,14 +11,15 @@ export default function DashPost() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState('');
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
+        const res = await fetch(`/api/post/getposts`);
         const data = await res.json();
         if (res.ok) {
-          setUserPosts(data.posts);
-          if (data.posts.length < 9) {
+          setUserPosts(data.post);
+          if (data.post.length < 9) {
             setShowMore(false);
           }
         }
@@ -26,10 +27,10 @@ export default function DashPost() {
         console.log(error.message);
       }
     };
-    if (currentUser.isAdmin) {
-      fetchPosts();
-    }
-  }, [currentUser._id]);
+  
+    fetchPosts();
+  }, []);
+
 
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
@@ -39,8 +40,8 @@ export default function DashPost() {
       );
       const data = await res.json();
       if (res.ok) {
-        setUserPosts((prev) => [...prev, ...data.posts]);
-        if (data.posts.length < 9) {
+        setUserPosts((prev) => [...prev, ...data.post]);
+        if (data.post.length < 9) {
           setShowMore(false);
         }
       }
@@ -89,13 +90,11 @@ export default function DashPost() {
           </Table.Head>
 
           {userPosts.map((post) => (
-            <Table.Body className='divide-y'>
-
+            <Table.Body className='divide-y' key={post._id}>
               <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                 <Table.Cell>
                   {new Date(post.updatedAt).toLocaleDateString()}
                 </Table.Cell>
-
                 <Table.Cell>
                   <Link to={`/post/${post.slug}`}>
                     <img
@@ -105,7 +104,6 @@ export default function DashPost() {
                     />
                   </Link>
                 </Table.Cell>
-
                 <Table.Cell>
                   <Link
                     className='font-medium text-gray-900 dark:text-white'
@@ -114,15 +112,18 @@ export default function DashPost() {
                     {post.title}
                   </Link>
                 </Table.Cell>
-
                 <Table.Cell>{post.category}</Table.Cell>
-
                 <Table.Cell>
-                <span onClick={() => {setShowModal(true); setPostIdToDelete(post._id); }}className='font-medium text-red-500 hover:underline cursor-pointer'>
+                  <span
+                    onClick={() => {
+                      setShowModal(true);
+                      setPostIdToDelete(post._id);
+                    }}
+                    className='font-medium text-red-500 hover:underline cursor-pointer'
+                  >
                     Delete
                   </span>
                 </Table.Cell>
-
                 <Table.Cell>
                   <Link
                     className='text-teal-500 hover:underline'
@@ -131,11 +132,10 @@ export default function DashPost() {
                     <span>Edit</span>
                   </Link>
                 </Table.Cell>
-
               </Table.Row>
-              
             </Table.Body>
           ))}
+
         </Table>
 
         {showMore && (

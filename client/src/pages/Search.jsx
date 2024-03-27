@@ -43,9 +43,9 @@ export default function Search() {
       }
       if (res.ok) {
         const data = await res.json();
-        setPosts(data.posts);
+        setPosts(data.post);
         setLoading(false);
-        if (data.posts.length === 9) {
+        if (data.post.length === 9) {
           setShowMore(true);
         } else {
           setShowMore(false);

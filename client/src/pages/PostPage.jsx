@@ -24,7 +24,7 @@ export default function PostPage() {
           return;
         }
         if (res.ok) {
-          setPost(data.posts[0]);
+          setPost(data.post[0]);
           setLoading(false);
           setError(false);
         }
@@ -42,7 +42,7 @@ export default function PostPage() {
         const res = await fetch(`/api/post/getposts?limit=3`);
         const data = await res.json();
         if (res.ok) {
-          setRecentPosts(data.posts);
+          setRecentPosts(data.post);
         }
       };
       fetchRecentPosts();

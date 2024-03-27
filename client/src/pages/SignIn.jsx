@@ -21,38 +21,37 @@ export default function Signin() {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
 
-  const handleSubmit = async (e) =>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if(!formData.email || !formData.password){
+  
+    if (!formData.email || !formData.password) {
       return dispatch(signInFailure('Please fill all the fields'));
     }
-
-    try{
+  
+    try {
       dispatch(signInStart());
-
+  
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
-        headers: {'Content-Type':'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
+  
       const data = await res.json();
-      if(data.success === false){
+      if (data.success === false) {
         dispatch(signInFailure(data.message));
       }
-      
-
-      if(res.ok){
+  
+      if (res.ok) {
         dispatch(signInSuccess(data));
         navigate('/');
+        localStorage.setItem('userType', data.userType); // Move this line here
       }
-
-    }catch(error){
+    } catch (error) {
       dispatch(signInFailure(error.message));
-
     }
   };
+  
 
   return <div className='min-h-screen mt-20'>
      <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
