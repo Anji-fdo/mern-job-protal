@@ -64,7 +64,7 @@ export default function CreateCourse() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/course/createcourse', {
+      const res = await fetch('/api/course/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

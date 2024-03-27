@@ -5,14 +5,16 @@ const jobSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      unique: true,
     },
     companyName: {
       type: String,
       required: true,
+      unique: true,
     },
     skills: {
       type: String,
-      required: false,
+      required: true,
     },
     category: {
       type: String,
@@ -20,18 +22,23 @@ const jobSchema = new mongoose.Schema(
     },
     salary: {
       type: Number,
-      required: false,
+      required: true,
       
     },
     description: {
         type: String,
-        required: false,
+        required: true,
         
     },
     location: {
         type: String,
-        required: false,
+        required: true,
         
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
     },
   },
   { timestamps: true }

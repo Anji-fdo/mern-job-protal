@@ -1,6 +1,6 @@
 import { Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate  } from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
 import JobCard from '../components/JobCard';
 
@@ -9,30 +9,31 @@ export default function JobPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [job, setJob] = useState(null);
-    const [recentJobs, setRecentjobs] = useState(null);
+    const [recentJobs, setRecentJobs] = useState(null);
+    const navigate = useNavigate();
   
     useEffect(() => {
       const fetchJob = async () => {
         try {
           setLoading(true);
-          const response = await fetch(`/api/job/getjobs?slug=${jobSlug}`);
-          if (!response.ok) {
-            throw new Error('Failed to fetch job details');
+          const res = await fetch(`/api/job/getjobs?slug=${jobSlug}`);
+          const data = await res.json();
+          if (!res.ok) {
+            setError(true);
+            setLoading(false);
+            return;
           }
-          const data = await response.json();
-          if (data.job.length === 0) {
-            throw new Error('Job not found');
+          if (res.ok) {
+            setJob(data.job[0]);
+            setLoading(false);
+            setError(false);
           }
-          setJob(data.job[0]);
-          setLoading(false);
         } catch (error) {
           setError(error.message);
           setLoading(false);
         }
       };
-      if (jobSlug) {
-        fetchJob();
-      }
+      fetchJob();
     }, [jobSlug]);
 
     useEffect(() => {
@@ -41,7 +42,7 @@ export default function JobPage() {
             const res = await fetch(`/api/job/getjobs?limit=3`);
             const data = await res.json();
             if (res.ok) {
-              setRecentjobs(data.job);
+              setRecentJobs(data.job);
             }
           };
           fetchRecentJobs();
@@ -57,29 +58,31 @@ export default function JobPage() {
         </div>
       );
 
+    if (loading)
+    return (
+      <div className='flex justify-center items-center min-h-screen'>
+        <Spinner size='xl' />
+      </div>
+    );
   
 
   return <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
-      <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>
-      {job && job.title}
-      </h1>
+      <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>{job && job.title}</h1>
 
-      <Link to={`/=${job && job.category}`} className='self-center mt-5'>
-        <Button color='gray' pill size='xs'>
-        {job && job.category}
-        </Button>
+      <Link to={`/searchjobs?category=${job && job.category}`} className='self-center mt-5'>
+        <Button color='gray' pill size='xs'>{job && job.category}</Button>
+      </Link>
+
+      <Link to={`/searchjobs?companyName=${job && job.companyName}`} className='self-center mt-5'>
+        <span  className='text-blue-500 text-xl' color='gray' pill size='lg'>By : {job && job.companyName}</span>
       </Link>
 
       <div className='flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs'>
-        <span>{job && new Date(job.createdAt).toLocaleDateString()}</span>
-        <span className='italic'>
-            {job && (job.description.length / 1000).toFixed(0)} mins read</span>
+        <span>Published Date: {job && new Date(job.createdAt).toLocaleDateString()}</span>
+        
       </div>
-      <div
-        className='p-3 max-w-2xl mx-auto w-full job-description'
-        dangerouslySetInnerHTML={{ __html: job && job.description }}
-      >
-        </div>
+
+      <div className='p-3 max-w-2xl mx-auto w-full job-description' dangerouslySetInnerHTML={{ __html: job && job.description }}></div>
 
         <div className='max-w-4xl mx-auto w-full'>
             <CallToAction />

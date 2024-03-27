@@ -115,7 +115,7 @@ export default function DashJobs() {
                   <Table.Cell>
                     <Link
                       className='text-teal-500 hover:underline'
-                      to={`/updatejobs/${job._id}`}
+                      to={`/updatejob/${job._id}`}
                     >
                       <span>Edit</span>
                     </Link>
