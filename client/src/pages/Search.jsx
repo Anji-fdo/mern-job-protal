@@ -11,7 +11,7 @@ export default function Search() {
   });
 
   console.log(sidebarData);
-  const [posts, setPosts] = useState([]);
+  const [post, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
 
@@ -80,7 +80,7 @@ export default function Search() {
   };
 
   const handleShowMore = async () => {
-    const numberOfPosts = posts.length;
+    const numberOfPosts = post.length;
     const startIndex = numberOfPosts;
     const urlParams = new URLSearchParams(location.search);
     urlParams.set('startIndex', startIndex);
@@ -91,8 +91,8 @@ export default function Search() {
     }
     if (res.ok) {
       const data = await res.json();
-      setPosts([...posts, ...data.posts]);
-      if (data.posts.length === 9) {
+      setPosts([...post, ...data.post]);
+      if (data.post.length === 9) {
         setShowMore(true);
       } else {
         setShowMore(false);
@@ -146,13 +146,13 @@ export default function Search() {
           Posts results:
         </h1>
         <div className='p-7 flex flex-wrap gap-4'>
-          {!loading && posts.length === 0 && (
+          {!loading && post.length === 0 && (
             <p className='text-xl text-gray-500'>No posts found.</p>
           )}
           {loading && <p className='text-xl text-gray-500'>Loading...</p>}
           {!loading &&
-            posts &&
-            posts.map((post) => <PostCard key={post._id} post={post} />)}
+            post &&
+            post.map((post) => <PostCard key={post._id} post={post} />)}
           {showMore && (
             <button
               onClick={handleShowMore}

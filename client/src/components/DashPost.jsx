@@ -36,7 +36,7 @@ export default function DashPost() {
     const startIndex = userPosts.length;
     try {
       const res = await fetch(
-        `/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
+        `/api/post/getposts?userId=${currentUser}&startIndex=${startIndex}`
       );
       const data = await res.json();
       if (res.ok) {
@@ -49,7 +49,7 @@ export default function DashPost() {
       console.log(error.message);
     }
   };
-
+  
   const handleDeletePost = async () => {
     setShowModal(false);
     try {

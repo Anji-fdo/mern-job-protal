@@ -27,10 +27,10 @@ export default function DashCourse() {
             console.log(error.message);
           }
         };
-        if (currentUser.isInst) {
+        
           fetchCourse();
-        }
-      }, [currentUser._id]);
+        
+      }, []);
     
     
 
