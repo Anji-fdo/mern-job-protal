@@ -58,28 +58,33 @@ export default function JobPage() {
         </div>
       );
 
-    if (loading)
-    return (
-      <div className='flex justify-center items-center min-h-screen'>
-        <Spinner size='xl' />
-      </div>
-    );
+      if (loading)
+      return (
+        <div className='flex justify-center items-center min-h-screen'>
+          <Spinner size='xl' />
+        </div>
+      );    
   
 
   return <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
       <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>{job && job.title}</h1>
 
       <Link to={`/searchjobs?category=${job && job.category}`} className='self-center mt-5'>
-        <Button color='gray' pill size='xs'>{job && job.category}</Button>
+        <Button color='gray' pill="true" size='xs'>{job && job.category}</Button>
       </Link>
 
       <Link to={`/searchjobs?companyName=${job && job.companyName}`} className='self-center mt-5'>
-        <span  className='text-blue-500 text-xl' color='gray' pill size='lg'>By : {job && job.companyName}</span>
+        <span className='text-blue-500 text-xl' pill="true" size='lg'>By : {job && job.companyName}</span>
       </Link>
 
-      <div className='flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs'>
-        <span>Published Date: {job && new Date(job.createdAt).toLocaleDateString()}</span>
-        
+      <div className='flex justify-between mt-10 p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs'>
+        <span  className='text-black-500 '>{job && job.type}</span>
+        <span>Published Date: {job && new Date(job.createdAt).toLocaleDateString()}</span> 
+      </div>
+
+      <div className='flex justify-between mt-5 p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-lg'>
+        <span  className='text-black-500 '>{job && job.location}</span>
+        <span className='text-black-500 '>USD : {job && job.salary}</span> 
       </div>
 
       <div className='p-3 max-w-2xl mx-auto w-full job-description' dangerouslySetInnerHTML={{ __html: job && job.description }}></div>

@@ -105,8 +105,8 @@ export default function SearchJobs() {
             <label className='font-semibold'>Category:</label>
             <Select onChange={handleChange} value={sidebarData.category} id='category'>
               <option value=''>Select a type</option>
-              <option value='fultime'>Full-Time</option>
-              <option value='contract'>Contract Basic</option>
+              <option value='full-time'>Full-Time</option>
+              <option value='part-time'>Part-Time</option>
               <option value='intern'>Internship</option>
             </Select>
           </div>

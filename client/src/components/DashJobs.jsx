@@ -80,6 +80,7 @@ export default function DashJobs() {
             <Table.Head>
               <Table.HeadCell>Date updated</Table.HeadCell>
               <Table.HeadCell>Job title</Table.HeadCell>
+              <Table.HeadCell>Type</Table.HeadCell>
               <Table.HeadCell>Category</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
               <Table.HeadCell>
@@ -101,6 +102,7 @@ export default function DashJobs() {
                     </Link>
                   </Table.Cell>
                   <Table.Cell>{job.category}</Table.Cell>
+                  <Table.Cell>{job.type}</Table.Cell>
                   <Table.Cell>
                     <span
                       onClick={() => {

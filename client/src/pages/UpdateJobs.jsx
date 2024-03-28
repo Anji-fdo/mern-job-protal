@@ -12,20 +12,11 @@ export default function UpdateJobs() {
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
-  };
-
-  const handleQuillChange = (content) => {
-    setFormData({ ...formData, description: content });
-    
-  };
 
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const res = await fetch(`/api/job/getjobs?jobID=${jobId}`);
+        const res = await fetch(`/api/job/getjobs?jobId=${jobId}`);
         const data = await res.json();
         if (!res.ok) {
           setPublishError(data.message);
@@ -42,6 +33,11 @@ export default function UpdateJobs() {
   }, [jobId]);
 
   const handleSubmit = async (e) => {
+    const { id, value } = e.target;
+    // Check if value is defined, if not, use an empty string
+    const updatedValue = value !== undefined ? value : '';
+    setFormData({ ...formData, [id]: updatedValue });
+
     e.preventDefault();
     try {
       const res = await fetch(
@@ -102,21 +98,21 @@ export default function UpdateJobs() {
         />
         <TextInput
           type='text'
-          placeholder='Skills'
+          placeholder='Enter category'
           required
-          id='skills'
+          id='type'
           onChange={(e) =>
-            setFormData({ ...formData, skills: e.target.value })
+            setFormData({ ...formData, type: e.target.value })
           }
-          value={formData.skills}
+          value={formData.type}
         />
         <Select required id='category' onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
             }
             value={formData.category}>
           <option value='uncategorized'>Select a Type</option>
-          <option value='fulltime'>Full-Time</option>
-          <option value='contract'>Contract Basic</option>
+          <option value='full-time'>Full-Time</option>
+          <option value='part-time'>Part-Time</option>
           <option value='intern'>Internship</option>
         </Select>
         <TextInput

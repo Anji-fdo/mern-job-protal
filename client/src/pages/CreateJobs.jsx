@@ -9,7 +9,7 @@ export default function CreateJobs() {
     title: '',
     companyName: '',
     description: '',
-    skills: '',
+    type: '',
     category: '',
     salary: '',
     location: '',
@@ -80,15 +80,15 @@ export default function CreateJobs() {
         />
         <TextInput
           type='text'
-          placeholder='Skills'
+          placeholder='Enter category'
           required
-          id='skills'
+          id='type'
           onChange={handleChange}
         />
         <Select required id='category' onChange={handleChange}>
           <option value='uncategorized'>Select a Type</option>
-          <option value='fulltime'>Full-Time</option>
-          <option value='contract'>Contract Basic</option>
+          <option value='full-time'>Full-Time</option>
+          <option value='part-time'>Part-Time</option>
           <option value='intern'>Internship</option>
         </Select>
         <TextInput

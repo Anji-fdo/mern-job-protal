@@ -1,5 +1,6 @@
 import Job from '../models/job.model.js';
 import { errorHandler } from '../utils/error.js';
+import mongoose from 'mongoose';
 
 export const create = async (req, res, next) => {
   if (!req.user.isEmp) {
@@ -88,25 +89,40 @@ export const deletejobs = async (req, res, next) => {
 };
 
 export const updatejob = async (req, res, next) => {
-  if (!req.user.isEmp || req.user.id !== req.params.userId) {
-    return next(errorHandler(403, 'You are not allowed to update this post'));
-  }
   try {
+    // Ensure the user is authorized to update the job
+    if (!req.user.isEmp || req.user.id !== req.params.userId) {
+      return next(errorHandler(403, 'You are not allowed to update this post'));
+    }
+    if (!mongoose.Types.ObjectId.isValid(req.params.jobId)) {
+      return next(errorHandler(400, 'Invalid courseId'));
+    }
+
+    // Retrieve the job ID from the request parameters
+    const jobId = req.params.jobId;
+
     const updatedJob = await Job.findByIdAndUpdate(
       req.params.jobId,
       {
         $set: {
           title: req.body.title,
-          description: req.body.description,
-          category: req.body.category,
-          skills: req.body.skills,
           companyName: req.body.companyName,
+          type: req.body.type,
+          category: req.body.category,
           salary: req.body.salary,
+          description: req.body.description,
           location: req.body.location,
         },
       },
       { new: true }
     );
+
+    // Check if the job exists and was successfully updated
+    if (!updatedJob) {
+      return next(errorHandler(404, 'Job not found'));
+    }
+
+    // Return the updated job data
     res.status(200).json(updatedJob);
   } catch (error) {
     next(error);
