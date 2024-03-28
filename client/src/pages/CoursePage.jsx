@@ -65,7 +65,7 @@ export default function CoursePage() {
     );
 
   return <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
-    <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>{course && course.title}</h1>
+    <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>{course && course.title || course.courseTitle}</h1>
     <Link to={`/searchcourse?level=${course && course.level}`} className='self-center mt-5'>
      <Button  color='gray' pill size='xs'>{course && course.level}</Button>
     </Link>
@@ -80,7 +80,7 @@ export default function CoursePage() {
     <p className='mt-10 p-3 max-w-6xl text-center mx-auto w-full font-black font-serif post-content' dangerouslySetInnerHTML={{ __html: course && course.description }} />
 
     <div className='mt-10 p-3 flex justify-center'>
-     <img src={course && course.image} alt={course && course.title} className=' max-w-[600px] h-auto object-cover'/>
+     <img src={course && course.image} alt={course && course.title || course.courseTitle} className=' max-w-[600px] h-auto object-cover'/>
      </div>
      
     <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">

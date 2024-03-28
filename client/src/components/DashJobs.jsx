@@ -98,7 +98,7 @@ export default function DashJobs() {
                       className='font-medium text-gray-900 dark:text-white'
                       to={`/job/${job.slug}`} 
                     >
-                      {job.title}
+                      {job.jobTitle || job.title}
                     </Link>
                   </Table.Cell>
                   <Table.Cell>{job.category}</Table.Cell>

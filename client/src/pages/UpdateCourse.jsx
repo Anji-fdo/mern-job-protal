@@ -114,12 +114,12 @@ export default function UpdateCourse() {
             type='text'
             placeholder='Title'
             required
-            id='title'
+            id='courseTitle'
             className='flex-1'
             onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
+              setFormData({ ...formData, courseTitle: e.target.value })
             }
-            value={formData.title}
+            value={formData.courseTitle}
           />
           <TextInput
             type='text'

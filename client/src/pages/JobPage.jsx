@@ -50,24 +50,21 @@ export default function JobPage() {
           console.log(error.message);
         }
       }, []);
-  
-      if (loading)
-      return (
-        <div className='flex justify-center items-center min-h-screen'>
-          <Spinner size='xl' />
-        </div>
-      );
 
+      const handleApply = () => {
+        
+        navigate('/apply');
+      };
+  
       if (loading)
       return (
         <div className='flex justify-center items-center min-h-screen'>
           <Spinner size='xl' />
         </div>
-      );    
-  
+      );  
 
   return <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
-      <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>{job && job.title}</h1>
+      <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>{job && job.jobTitle || job.title}</h1>
 
       <Link to={`/searchjobs?category=${job && job.category}`} className='self-center mt-5'>
         <Button color='gray' pill="true" size='xs'>{job && job.category}</Button>
@@ -88,6 +85,13 @@ export default function JobPage() {
       </div>
 
       <div className='p-3 max-w-2xl mx-auto w-full job-description' dangerouslySetInnerHTML={{ __html: job && job.description }}></div>
+
+      <div className='flex justify-center items-center my-5'>
+        
+        <Button color='blue' pill size='lg' onClick={handleApply}> 
+          Apply Now
+        </Button>
+      </div>
 
         <div className='max-w-4xl mx-auto w-full'>
             <CallToAction />

@@ -5,7 +5,7 @@ export default function JobCard({ job }) {
       <div className='group relative w-full border border-teal-500 hover:border-2 h-[300px] overflow-hidden rounded-lg sm:w-[300px] transition-all'>
         
         <div className='p-3 flex flex-col gap-2'>
-          <p className='text-lg font-semibold line-clamp-2'>{job.title}</p>
+          <p className='text-lg font-semibold line-clamp-2'>{job.jobTitle || job.title}</p>
           <span className='italic text-sm'>{job.category}</span>
           <span className='italic text-sm'>{job.type}</span>
           <span className='italic text-sm'>USD: {job.salary}</span>

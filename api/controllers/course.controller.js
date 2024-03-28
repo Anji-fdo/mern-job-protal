@@ -6,12 +6,12 @@ export const create = async (req, res, next) => {
   if (!req.user.isInst) {
     return next(errorHandler(403, 'You are not allowed to create a course'));
   }
-  if (!req.body.title || !req.body.instituteName) {
+  if (!req.body.courseTitle || !req.body.instituteName) {
     return next(errorHandler(400, 'Please provide all required fields'));
   }
   
   try {
-    const slug = req.body.title
+    const slug = req.body.courseTitle
       .toLowerCase()
       .replace(/[^a-zA-Z0-9-]/g, '-') // Replace special characters with '-'
       .replace(/-{2,}/g, '-') // Replace multiple consecutive '-' with single '-'
@@ -53,7 +53,7 @@ export const getcourse = async (req, res, next) => {
     }
     if (req.query.searchTerm) {
       queryFilters.$or = [
-        { title: { $regex: req.query.searchTerm, $options: 'i' } },
+        { courseTitle: { $regex: req.query.searchTerm, $options: 'i' } },
         { description: { $regex: req.query.searchTerm, $options: 'i' } },
       ];
     }
@@ -121,7 +121,7 @@ export const updatecourse = async (req, res, next) => {
       req.params.courseId,
       {
         $set: {
-          title: req.body.title,
+          courseTitle: req.body.courseTitle,
           description: req.body.description,
           level: req.body.level,
           about: req.body.about,

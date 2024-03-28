@@ -11,7 +11,7 @@ export default function CourseCard({ course }) {
         />
       </Link>
       <div className='p-2 flex flex-col gap-2'>
-        <p className='text-lg font-semibold line-clamp-2'>{course.title}</p>
+        <p className='text-lg font-semibold line-clamp-2'>{course.courseTitle || course.title}</p>
         <span className='italic text-sm'>{course.level}</span>
         <Link
           to={`/course/${course.slug}`}

@@ -228,7 +228,7 @@ export default function CheckoutPage() {
      
 
       <div className="mt-5 text-center">
-        <Link to="/course" className="text-blue-500 hover:underline">Explore Courses</Link>
+        <Link to="/searchcourse" className="text-blue-500 hover:underline">Explore Courses</Link>
       </div>
 
      

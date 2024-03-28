@@ -70,11 +70,11 @@ export default function UpdateJobs() {
           type='text'
           placeholder='Job Title'
           required
-          id='title'
+          id='jobTitle'
           onChange={(e) =>
-            setFormData({ ...formData, title: e.target.value })
+            setFormData({ ...formData, jobTitle: e.target.value })
           }
-          value={formData.title}
+          value={formData.jobTitle}
         />
         <TextInput
           type='text'

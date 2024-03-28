@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CreateJobs() {
   const [formData, setFormData] = useState({
-    title: '',
+    jobTitle: '',
     companyName: '',
     description: '',
     type: '',
@@ -61,7 +61,7 @@ export default function CreateJobs() {
           type='text'
           placeholder='Job Title'
           required
-          id='title'
+          id='jobTitle'
           onChange={handleChange}
         />
         <TextInput

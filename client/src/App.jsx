@@ -29,6 +29,7 @@ import SearchCourse from './pages/SearchCourse';
 import CheckoutPage from './pages/CheckoutPage'; // Import CheckoutPage
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import ApplyJobs from './pages/ApplyJobs';
 
 // Load your Stripe public key
 const stripePromise = loadStripe('your_stripe_public_key_here');
@@ -48,6 +49,7 @@ export default function App() {
         <Route path='/course' element={<Course />} />
         <Route path='/searchjobs' element={<SearchJobs />} />
         <Route path='/searchcourse' element={<SearchCourse />} />
+        <Route path='/apply' element={<ApplyJobs />} />
         
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
@@ -68,7 +70,7 @@ export default function App() {
           
         </Route>
 
-        {/* Route for CheckoutPage */}
+       
         <Route path="/checkout" element={
           <Elements stripe={stripePromise}>
             <CheckoutPage />

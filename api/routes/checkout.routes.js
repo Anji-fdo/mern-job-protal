@@ -1,8 +1,8 @@
 // routes/checkout.js
 
-const express = require('express');
-const router = express.Router();
-const { createOrder, processPayment } = require('../controllers/checkoutController');
+import { Router } from 'express';
+const router = Router();
+import { createOrder, processPayment } from '../controllers/checkoutController';
 
 // Route for creating a new order
 router.post('/create-order', createOrder);
@@ -10,4 +10,4 @@ router.post('/create-order', createOrder);
 // Route for processing payment
 router.post('/process-payment', processPayment);
 
-module.exports = router;
+export default router;

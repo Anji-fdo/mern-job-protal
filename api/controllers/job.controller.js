@@ -6,12 +6,12 @@ export const create = async (req, res, next) => {
   if (!req.user.isEmp) {
     return next(errorHandler(403, 'You are not allowed to create a post'));
   }
-  if (!req.body.title || !req.body.companyName) {
+  if (!req.body.jobTitle || !req.body.companyName) {
     return next(errorHandler(400, 'Please provide all required fields'));
   }
   
   try {
-    const slug = req.body.title
+    const slug = req.body.jobTitle
       .toLowerCase()
       .replace(/[^a-zA-Z0-9-]/g, '-') // Replace special characters with '-'
       .replace(/-{2,}/g, '-') // Replace multiple consecutive '-' with single '-'
@@ -105,7 +105,7 @@ export const updatejob = async (req, res, next) => {
       req.params.jobId,
       {
         $set: {
-          title: req.body.title,
+          jobTitle: req.body.jobTitle,
           companyName: req.body.companyName,
           type: req.body.type,
           category: req.body.category,
