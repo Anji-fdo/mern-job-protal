@@ -47,7 +47,7 @@ export default function DashboardComp() {
         const res = await fetch('/api/post/getposts?limit=5');
         const data = await res.json();
         if (res.ok) {
-          setPosts(data.posts);
+          setPosts(data.post);
           setTotalPosts(data.totalPosts);
           setLastMonthPosts(data.lastMonthPosts);
         }
@@ -279,7 +279,7 @@ export default function DashboardComp() {
                     <Table.Cell>
                       <img
                         src={post.image}
-                        alt='user'
+                        alt='post'
                         className='w-14 h-10 rounded-md bg-gray-500'
                       />
                     </Table.Cell>
@@ -309,7 +309,7 @@ export default function DashboardComp() {
                 <Table.Body key={job._id} className='divide-y'>
                   <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                     
-                    <Table.Cell className='w-96'>{job.title}</Table.Cell>
+                    <Table.Cell className='w-96'>{job.title || job.jobTitle}</Table.Cell>
                     <Table.Cell className='w-5'>{job.category}</Table.Cell>
                   </Table.Row>
                 </Table.Body>
@@ -341,7 +341,7 @@ export default function DashboardComp() {
                         className='w-14 h-10 rounded-md bg-gray-500'
                       />
                     </Table.Cell>
-                    <Table.Cell className='w-96'>{course.title}</Table.Cell>
+                    <Table.Cell className='w-96'>{course.title || course.courseTitle}</Table.Cell>
                     <Table.Cell className='w-5'>{course.level}</Table.Cell>
                   </Table.Row>
                 </Table.Body>

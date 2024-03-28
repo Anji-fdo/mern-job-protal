@@ -8,6 +8,8 @@ import DashComments from '../components/DashComments';
 import DashboardComp from '../components/DashboardComp';
 import DashJobs from '../components/DashJobs';
 import DashCourse from '../components/DashCourse';
+import DashApply from '../components/DashApply';
+import DashCourses from '../components/DashCourses';
 
 export default function Dashboard() {
 
@@ -48,6 +50,13 @@ export default function Dashboard() {
        
        {/* course... */}
       {tab === 'course' && <DashCourse />}
+
+      {/* applications... */}
+      {tab === 'apply' && <DashApply />}
+
+      {/* enroll courses... */}
+      {tab === 'enroll' && <DashCourses />}
+
 
     </div>
   );

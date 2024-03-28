@@ -197,18 +197,43 @@ export default function DashProfile() {
         </Button>
 
         {currentUser && (
-            <Link to={redirectToCreatePost()}>
-              <Button
-                type='button'
-                gradientDuoTone='purpleToPink'
-                className='w-full'
-              >
-                {currentUser.isAdmin && 'Create a Post'}
-                {currentUser.isEmp && 'Create a Job'}
-                {currentUser.isInst && 'Create a Course'}
-              </Button>
-            </Link>
-          )}
+  <>
+    {currentUser.isAdmin && (
+      <Link to={redirectToCreatePost()}>
+        <Button
+          type='button'
+          gradientDuoTone='purpleToPink'
+          className='w-full'
+        >
+          Create a Post
+        </Button>
+      </Link>
+    )}
+    {currentUser.isEmp && (
+      <Link to='/createjobs'>
+        <Button
+          type='button'
+          gradientDuoTone='purpleToPink'
+          className='w-full'
+        >
+          Create a Job
+        </Button>
+      </Link>
+    )}
+    {currentUser.isInst && (
+      <Link to='/createcourse'>
+        <Button
+          type='button'
+          gradientDuoTone='purpleToPink'
+          className='w-full'
+        >
+          Create a Course
+        </Button>
+      </Link>
+    )}
+  </>
+)}
+
 
 
       </form>

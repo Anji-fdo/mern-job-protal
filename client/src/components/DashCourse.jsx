@@ -115,7 +115,7 @@ export default function DashCourse() {
                                         className='font-medium text-gray-900 dark:text-white'
                                         to={`/course/${course.slug}`}
                                     >
-                                        {course.title}
+                                        {course.title || course.courseTitle}
                                     </Link>
                                 </Table.Cell>
 

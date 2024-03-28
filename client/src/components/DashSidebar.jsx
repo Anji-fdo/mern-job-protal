@@ -1,5 +1,5 @@
 import { Sidebar } from 'flowbite-react';
-import { HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup,  HiAnnotation, HiChartPie, HiBriefcase, HiBookOpen,} from 'react-icons/hi';
+import { HiUser, HiArrowSmRight, HiDocumentText, HiOutlineUserGroup,  HiAnnotation, HiChartPie, HiBriefcase, HiBookOpen, HiDocument} from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { signoutSuccess } from '../redux/user/userSlice';
@@ -101,7 +101,43 @@ export default function DashSidebar() {
             </Link>
           )}
 
-          {currentUser && (currentUser.isAdmin || currentUser.isInst) && (
+          {currentUser.isEmp && (
+            <Link to='/dashboard?tab=apply'>
+              <Sidebar.Item
+                active={tab === 'apply'}
+                icon={HiDocument}
+                as='div'
+              >
+                Applicants
+              </Sidebar.Item>
+            </Link>
+          )}
+
+          {currentUser.isUser && (
+            <Link to='/dashboard?tab=apply'>
+              <Sidebar.Item
+                active={tab === 'apply'}
+                icon={HiDocument}
+                as='div'
+              >
+                Applicantions
+              </Sidebar.Item>
+            </Link>
+          )}
+
+          {currentUser.isUser && (
+            <Link to='/dashboard?tab=enroll'>
+              <Sidebar.Item
+                active={tab === 'enroll'}
+                icon={HiBookOpen}
+                as='div'
+              >
+                Courses
+              </Sidebar.Item>
+            </Link>
+          )}
+
+        {currentUser && (currentUser.isAdmin || currentUser.isInst) && (
             <Link to='/dashboard?tab=course'>
               <Sidebar.Item
                 active={tab === 'course'}
