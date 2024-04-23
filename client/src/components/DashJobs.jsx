@@ -29,6 +29,7 @@ export default function DashJobs() {
   
     fetchJobs();
   }, []);
+  
 
   const handleShowMore = async () => {
     const startIndex = userJobs.length;
