@@ -134,7 +134,7 @@ export default function CommentSection({ postId }) {
         <div className='text-sm text-teal-500 my-5 flex gap-1'>
           You must be signed in to comment.
           
-          <Link className='text-blue-500 hover:underline' to={'/sign-in'}>
+          <Link className='text-blue-500 hover:underline' to={'/signin'}>
             Sign In
           </Link>
 
