@@ -75,10 +75,10 @@ export default function DashApply() {
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
     {currentUser.isEmp || (currentUser.isUser && userApply.length > 0) ? (
       <>
-        <Table hoverable className='shadow-md'>
-          <Table.Head>
+        <Table hoverable className='shadow-md mx-auto bg-gray-100 rounded-lg'>
+          <Table.Head className='bg-gray-200'>
             <Table.HeadCell>Date applied</Table.HeadCell>
-            <Table.HeadCell>Job Titile</Table.HeadCell>
+            <Table.HeadCell>Applied Position</Table.HeadCell>
             <Table.HeadCell>Applicant Name</Table.HeadCell>
             <Table.HeadCell>Email</Table.HeadCell>
             <Table.HeadCell>Resume</Table.HeadCell>
@@ -97,7 +97,10 @@ export default function DashApply() {
                   {new Date(apply.updatedAt).toLocaleDateString()}
                 </Table.Cell>
 
-                <TableCell></TableCell>
+                <TableCell>
+                  <Link className='text-blue-600 hover:underline' to={`/job/${apply.slug}`}>{apply.jobTitle || apply.title}</Link>
+                </TableCell>
+
                 
                 <Table.Cell>
                     {apply.fullName}
@@ -119,7 +122,7 @@ export default function DashApply() {
                     setShowModal(true);
                     setApplyIdToDelete(apply._id);
                   }}>
-                    Delete
+                    Reject
                   </span>
                 </Table.Cell>
                 

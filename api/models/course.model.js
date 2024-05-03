@@ -2,16 +2,21 @@ import mongoose from 'mongoose';
 
 const courseSchema = new mongoose.Schema(
   {
-    courseTitle: {
+    userId: {
       type: String,
       required: true,
-      unique: true,
     },
     instituteName: {
       type: String,
       required: true,
+      
+    },
+    title: {
+      type: String,
+      required: true,
       unique: true,
     },
+    
     level: {
       type: String,
       default: 'uncategorized',

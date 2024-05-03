@@ -4,23 +4,29 @@ import { errorHandler } from "../utils/error.js";
 import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res, next) => {
-  const { username, email, password, userType } = req.body;
+  const { username, email, password, userType, fullname, address, dateofbirth, gender } = req.body;
 
-  if (!username || !email || !password || !userType || username === '' || email === '' || password === '' || userType === '') {
-      next(errorHandler(400, 'All fields are required'));
-  }
+  if (!username || !email || !password || !userType || !fullname || !address || !dateofbirth || !gender ||
+    username === '' || email === '' || password === '' || userType === '' || fullname === '' || address === '' ) {
+    return next(errorHandler(400, 'All fields are required'));
+}
+
   const hashedPassword = bcryptjs.hashSync(password, 10);
 
   const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
-      userType,
-        isAdmin: userType === 'admin',
-        isEmp: userType === 'employer',
-        isInst: userType === 'institute',
-        isUser: userType === 'general'
-  });
+    username,
+    email,
+    password: hashedPassword,
+    fullname,
+    address,
+    dateofbirth: new Date(dateofbirth), // Convert dateofbirth string to Date object
+    gender,
+    userType,
+    isAdmin: userType === 'admin',
+    isEmp: userType === 'employer',
+    isInst: userType === 'institute',
+    isUser: userType === 'general'
+});
 
   try {
       await newUser.save();
@@ -35,6 +41,7 @@ export const signup = async (req, res, next) => {
         // Other fields as needed
     };
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET);
+    
 };
 
 

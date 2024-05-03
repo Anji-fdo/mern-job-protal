@@ -5,9 +5,9 @@ import CourseCard from '../components/CourseCard';
 
 export default function SearchCourse() {
   const [sidebarData, setSidebarData] = useState({
-    searchTermss: '',
+    searchTerms: '',
     sort: 'desc',
-    level: 'uncategorized',
+    level: '',
   });
 
   const [course, setCourse] = useState([]);
@@ -19,49 +19,86 @@ export default function SearchCourse() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const searchTermss = urlParams.get('searchTermss') || '';
-    const sort = urlParams.get('sort') || 'desc';
-    const level = urlParams.get('level') || 'uncategorized';
+    const searchTermsFromUrl = urlParams.get('searchTerms') ;
+    const sortFromUrl = urlParams.get('sort') ;
+    const levelFromUrl = urlParams.get('level');
 
-    setSidebarData({ searchTermss, sort, level });
+      setSidebarData({
+        ...sidebarData, 
+        searchTerms:searchTermsFromUrl || '', 
+        sort:sortFromUrl || 'desc', 
+        level:levelFromUrl || '' ,
+      });
+
+      const fetchCourse = async () => {
+        setLoading(true);
+        const searchQuery = urlParams.toString();
+        const res = await fetch(`/api/course/getcourse?${searchQuery}`);
+        if (!res.ok) {
+          setLoading(false);
+          return;
+        }
+        if (res.ok) {
+          const data = await res.json();
+          setCourse(data.course);
+          setLoading(false);
+          if (data.course.length === 9) {
+            setShowMore(true);
+          } else {
+            setShowMore(false);
+          }
+        }
+      };
+
     fetchCourse(urlParams);
   }, [location.search]);
+  
 
-  const fetchCourse = async (params) => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/course/getcourse?${params.toString()}`);
-      if (!res.ok) throw new Error('Failed to fetch courses');
-      const data = await res.json();
-      setCourse(data.course);
-      setLoading(false);
-      setShowMore(data.course.length === 9);
-    } catch (error) {
-      console.error('Error fetching courses:', error);
-      setLoading(false);
+  const handleChange = (e) => {
+    if (e.target.id === 'searchTerms') {
+      setSidebarData({ ...sidebarData, searchTerms: e.target.value });
+    }
+    if (e.target.id === 'sort') {
+      const order = e.target.value || 'desc';
+      setSidebarData({ ...sidebarData, sort: order });
+    }
+    if (e.target.id === 'level') {
+      const level = e.target.value || 'uncategorized';
+      setSidebarData({ ...sidebarData, level });
     }
   };
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setSidebarData({ ...sidebarData, [id]: value });
-  };
-
   const handleSubmit = (e) => {
-  e.preventDefault();
-  const urlParams = new URLSearchParams();
-  Object.entries(sidebarData).forEach(([key, value]) => {
-    if (value || key === 'level') urlParams.set(key, value);
-  });
-  navigate(`/searchcourse?${urlParams.toString()}`);
-};
+    e.preventDefault();
+    const urlParams = new URLSearchParams();
+    
+    Object.entries(sidebarData).forEach(([key, value]) => {
+      if (value) urlParams.set(key, value);
+    });
+    
+    navigate(`/searchcourse?${urlParams.toString()}`);
+  };
 
 
   const handleShowMore = async () => {
-    const startIndex = course.length;
+    const numberOfCourses = course.length;
+    const startIndex = numberOfCourses;
     const urlParams = new URLSearchParams(location.search);
     urlParams.set('startIndex', startIndex);
-    fetchCourse(urlParams);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/course/getcourse?${searchQuery}`);
+    if (!res.ok) {
+      return;
+    }
+    if (res.ok) {
+      const data = await res.json();
+      setCourse([...course, ...data.course]);
+      if (data.course.length === 9) {
+        setShowMore(true);
+      } else {
+        setShowMore(false);
+      }
+    }
   };
 
   return (
@@ -72,9 +109,9 @@ export default function SearchCourse() {
             <label className='whitespace-nowrap font-semibold'>Search Term:</label>
             <TextInput
               placeholder='Search...'
-              id='searchTerm'
+              id='searchTerms'
               type='text'
-              value={sidebarData.searchTerm}
+              value={sidebarData.searchTerms}
               onChange={handleChange}
             />
           </div>
@@ -105,9 +142,13 @@ export default function SearchCourse() {
           Course results:
         </h1>
         <div className='p-7 flex flex-wrap gap-4'>
-          {!loading && course.length === 0 && <p className='text-xl text-gray-500'>No courses found.</p>}
+          {!loading && course.length === 0 && (
+          <p className='text-xl text-gray-500'>No courses found.</p>
+          )}
           {loading && <p className='text-xl text-gray-500'>Loading...</p>}
-          {!loading && course.map((course) => <CourseCard key={course._id} course={course} />)}
+          {!loading && 
+            course &&
+            course.map((course) => <CourseCard key={course._id} course={course} />)}
           {showMore && (
             <button
               onClick={handleShowMore}

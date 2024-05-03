@@ -98,7 +98,7 @@ export default function CreateCourse() {
             id='courseTitle'
             className='flex-1'
             onChange={(e) =>
-              setFormData({ ...formData, courseTitle: e.target.value })
+              setFormData({ ...formData, title: e.target.value })
             }
           />
           <TextInput

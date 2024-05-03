@@ -38,7 +38,13 @@ export default function OAuth() {
         }
     } 
   return (
-    <div className=' gap-4'>
+    <div className=' flex flex-col gap-4'>
+      <div className='flex flex-col gap-4'>
+        <label htmlFor="userType" className="block font-semibold flex-col gap-4">Or signup with google :</label>
+      </div>
+
+      <div>
+      <label htmlFor="userType" className="block font-semibold flex-col gap-4">User Type</label>
       <select value={userType} onChange={(e) => setUserType(e.target.value)} className="w-full border rounded-md px-4 py-2 mt-1 focus:outline-none focus:border-purple-500"> 
         <option value="general">General</option>
         <option value="employer">Employer</option>
@@ -49,6 +55,9 @@ export default function OAuth() {
           <AiFillGoogleCircle className='w-6 h-6 mr-2'/>
           Continue with Google
       </Button>
+
+      </div>
+      
     </div>
   )
 }

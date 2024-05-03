@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, FileInput, Select, TextInput } from 'flowbite-react';
+import { Button, FileInput, Select, TextInput, Alert } from 'flowbite-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router-dom';
@@ -62,21 +62,27 @@ export default function CreateJobs() {
           placeholder='Job Title'
           required
           id='jobTitle'
-          onChange={handleChange}
+          onChange={(e) =>
+            setFormData({ ...formData, jobTitle: e.target.value })
+          }
         />
         <TextInput
           type='text'
           placeholder='Company Name'
           required
           id='companyName'
-          onChange={handleChange}
+          onChange={(e) =>
+            setFormData({ ...formData, companyName: e.target.value })
+          }
         />
         <ReactQuill
           theme='snow'
           placeholder='Description'
           className='h-72 mb-12'
           required
-          onChange={handleQuillChange}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.target.value })
+          }
         />
         <TextInput
           type='text'
@@ -85,7 +91,9 @@ export default function CreateJobs() {
           id='type'
           onChange={handleChange}
         />
-        <Select required id='category' onChange={handleChange}>
+        <Select required id='category'  onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }>
           <option value='uncategorized'>Select a Type</option>
           <option value='full-time'>Full-Time</option>
           <option value='part-time'>Part-Time</option>
@@ -96,14 +104,18 @@ export default function CreateJobs() {
           placeholder='Salary'
           required
           id='salary'
-          onChange={handleChange}
+          onChange={(e) =>
+            setFormData({ ...formData, title: e.target.value })
+          }
         />
         <TextInput
           type='text'
           placeholder='Location'
           required
           id='location'
-          onChange={handleChange}
+          onChange={(e) =>
+            setFormData({ ...formData, title: e.target.value })
+          }
         />
         <Button
           type='submit'

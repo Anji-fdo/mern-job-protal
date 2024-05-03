@@ -20,6 +20,7 @@ export default function ApplyJobs() {
     const [countries, setCountries] = useState([]);
     const navigate = useNavigate();
     const [publishError, setPublishError] = useState(null);
+    const [job, setJob] = useState(null);
 
     const handleUploadFile = async () => {
         try {
@@ -66,7 +67,7 @@ export default function ApplyJobs() {
                 if (!res.ok) {
                     setError(true);
                 } else if (data.job && data.job.length > 0) {
-                    setJob(data.job[0]);
+                    setJob(data.job[0]); // Set the job state with the fetched job details
                 } else {
                     setError(true);
                 }
@@ -101,7 +102,7 @@ export default function ApplyJobs() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({...formData},jobSlug ),
             });
             const data = await res.json();
             if (!res.ok) {
@@ -128,7 +129,7 @@ return (
     <div className='border border-gray-500 rounded-lg p-3 gap-20'>
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
     
-        <h1 className="text-3xl font-bold mb-5">Apply for job</h1>
+        <h1 className="text-3xl font-bold mb-5">Apply for job: {job && job.jobTitle}</h1>
            
 
           <h2 className="text-lg font-bold mb-3">General information</h2>

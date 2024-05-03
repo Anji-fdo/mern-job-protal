@@ -13,24 +13,30 @@ export default function DashCourse() {
    
 
     useEffect(() => {
-        const fetchCourse = async () => {
+      const fetchCourse = async () => {
           try {
-            const res = await fetch(`/api/course/getcourse`);
-            const data = await res.json();
-            if (res.ok) {
-              setUserCourse(data.course);
-              if (data.course.length < 9) {
-                setShowMore(false);
+              let url = `/api/course/getcourse`;
+              // Check if the current user is an admin
+              if (!currentUser.isAdmin) {
+                  // If not admin, fetch only courses created by the current user
+                  url += `?userId=${currentUser._id}`;
               }
-            }
+              const res = await fetch(url);
+              const data = await res.json();
+              if (res.ok) {
+                  setUserCourse(data.course);
+                  if (data.course.length < 9) {
+                      setShowMore(false);
+                  }
+              }
           } catch (error) {
-            console.log(error.message);
+              console.log(error.message);
           }
-        };
-        
-          fetchCourse();
-        
-      }, []);
+      };
+  
+      fetchCourse();
+  }, [currentUser]);
+  
     
     
 

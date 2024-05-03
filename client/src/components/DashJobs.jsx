@@ -70,101 +70,62 @@ export default function DashJobs() {
     }
   };
 
-  
-
   return (
-    <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
-      {currentUser.isEmp || currentUser.isAdmin && userJobs.length > 0 ? (
-        <>
-          <Table hoverable className='shadow-md'>
-            <Table.Head>
-              <Table.HeadCell>Date updated</Table.HeadCell>
-              <Table.HeadCell>Job title</Table.HeadCell>
-              <Table.HeadCell>Type</Table.HeadCell>
-              <Table.HeadCell>Category</Table.HeadCell>
-              <Table.HeadCell>Delete</Table.HeadCell>
-              <Table.HeadCell>
-                <span>Edit</span>
-              </Table.HeadCell>
-            </Table.Head>
-            {userJobs.map((job) => (
-              <Table.Body className='divide-y' key={job._id}>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell>
-                    {new Date(job.updatedAt).toLocaleDateString()}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Link
-                      className='font-medium text-gray-900 dark:text-white'
-                      to={`/job/${job.slug}`} 
-                    >
-                      {job.jobTitle || job.title}
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>{job.category}</Table.Cell>
-                  <Table.Cell>{job.type}</Table.Cell>
-                  <Table.Cell>
-                    <span
-                      onClick={() => {
-                        setShowModal(true);
-                        setJobIdToDelete(job._id);
-                      }}
-                      className='font-medium text-red-500 hover:underline cursor-pointer'
-                    >
-                      Delete
-                    </span>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Link
-                      className='text-teal-500 hover:underline'
-                      to={`/updatejob/${job._id}`}
-                    >
-                      <span>Edit</span>
-                    </Link>
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            ))}
-          </Table>
+    <div className='min-h-screen md:mx-auto table-auto scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 '>
+      <div className='container mx-auto py-6'>
+        {currentUser.isEmp || currentUser.isAdmin ? (
+          <>
+            <Table hoverable className='shadow-md mx-auto bg-gray-100 rounded-lg'>
+              <Table.Head className='bg-gray-200'>
+                <Table.HeadCell>Date Updated</Table.HeadCell>
+                <Table.HeadCell>Job Title</Table.HeadCell>
+                <Table.HeadCell>Type</Table.HeadCell>
+                <Table.HeadCell>Category</Table.HeadCell>
+                <Table.HeadCell>Action</Table.HeadCell>
+              </Table.Head>
+              {userJobs.map((job) => (
+                <Table.Body key={job._id}>
+                  <Table.Row>
+                    <Table.Cell>{new Date(job.updatedAt).toLocaleDateString()}</Table.Cell>
+                    <Table.Cell>
+                      <Link className='text-blue-600 hover:underline' to={`/job/${job.slug}`}>{job.jobTitle || job.title}</Link>
+                    </Table.Cell>
+                    <Table.Cell>{job.type}</Table.Cell>
+                    <Table.Cell>{job.category}</Table.Cell>
+                    <Table.Cell>
+                      <div className='flex'>
+                        <Button color='red' className='mr-2' onClick={() => { setShowModal(true); setJobIdToDelete(job._id); }}>Delete</Button>
+                        <Link className='btn btn-teal' to={`/updatejob/${job._id}`}>Edit</Link>
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              ))}
+            </Table>
 
-          {showMore && (
-            <button
-              onClick={handleShowMore}
-              className='w-full text-teal-500 self-center text-sm py-7'
-            >
-              Show more
-            </button>
-          )}
+            {showMore && (
+              <button onClick={handleShowMore} className='block mx-auto mt-6 px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:bg-blue-600'>Show more</button>
+            )}
 
-        </>
-      ) : (
-        <p>You have no jobs yet!</p>
-      )}
+          </>
+        ) : (
+          <p className='text-center text-gray-600'>You have no jobs yet!</p>
+        )}
 
-      <Modal
-        show={showModal}
-        onClose={() => setShowModal(false)}
-        popup
-        size='md'
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className='text-center'>
-            <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
-            <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
-              Are you sure you want to delete this job?
-            </h3>
-            <div className='flex justify-center gap-4'>
-              <Button color='failure' onClick={handleDeleteJob}>
-                Yes, I'm sure
-              </Button>
-              <Button color='gray' onClick={() => setShowModal(false)}>
-                No, cancel
-              </Button>
+        <Modal show={showModal} onClose={() => setShowModal(false)} popup size='md'>
+          <Modal.Header />
+          <Modal.Body>
+            <div className='text-center'>
+              <HiOutlineExclamationCircle className='h-14 w-14 text-red-500 mb-4 mx-auto' />
+              <h3 className='mb-5 text-lg text-gray-700'>Are you sure you want to delete this job?</h3>
+              <div className='flex justify-center gap-4'>
+                <Button color='red' onClick={handleDeleteJob}>Yes, I'm sure</Button>
+                <Button color='gray' onClick={() => setShowModal(false)}>No, cancel</Button>
+              </div>
             </div>
-          </div>
-        </Modal.Body>
-      </Modal>
+          </Modal.Body>
+        </Modal>
+      </div>
     </div>
   );
 }

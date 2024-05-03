@@ -2,6 +2,10 @@ import mongoose from 'mongoose';
 
 const jobSchema = new mongoose.Schema(
   {
+    userId: {
+      type: String,
+      required: true,
+    },
     jobTitle: {
       type: String,
       required: true,
@@ -10,7 +14,7 @@ const jobSchema = new mongoose.Schema(
     companyName: {
       type: String,
       required: true,
-      unique: true,
+      
     },
     type: {
       type: String,

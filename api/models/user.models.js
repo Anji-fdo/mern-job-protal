@@ -15,6 +15,30 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    fullname: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    about: {
+        type: String,
+        
+        unique: true,
+    },
+    address: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    gender: {
+        type: String,
+        enum: ['male', 'female', 'other'],
+        required: true,
+    },
+    dateofbirth: {
+        type: Date,
+        required: true,
+    },
     profilePicture: {
         type: String,
         default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',

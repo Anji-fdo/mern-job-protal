@@ -6,12 +6,12 @@ export const create = async (req, res, next) => {
   if (!req.user.isInst) {
     return next(errorHandler(403, 'You are not allowed to create a course'));
   }
-  if (!req.body.courseTitle || !req.body.instituteName) {
+  if (!req.body.title || !req.body.instituteName) {
     return next(errorHandler(400, 'Please provide all required fields'));
   }
   
   try {
-    const slug = req.body.courseTitle
+    const slug = req.body.title
       .toLowerCase()
       .replace(/[^a-zA-Z0-9-]/g, '-') // Replace special characters with '-'
       .replace(/-{2,}/g, '-') // Replace multiple consecutive '-' with single '-'
@@ -51,10 +51,10 @@ export const getcourse = async (req, res, next) => {
     if (req.query.courseId) {
       queryFilters._id = req.query.courseId;
     }
-    if (req.query.searchTerm) {
+    if (req.query.searchTerms) {
       queryFilters.$or = [
-        { courseTitle: { $regex: req.query.searchTerm, $options: 'i' } },
-        { description: { $regex: req.query.searchTerm, $options: 'i' } },
+        { title: { $regex: req.query.searchTerms, $options: 'i' } },
+        { description: { $regex: req.query.searchTerms, $options: 'i' } },
       ];
     }
     if (req.query.level && req.query.level !== 'uncategorized') {
@@ -121,7 +121,7 @@ export const updatecourse = async (req, res, next) => {
       req.params.courseId,
       {
         $set: {
-          courseTitle: req.body.courseTitle,
+          title: req.body.title,
           description: req.body.description,
           level: req.body.level,
           about: req.body.about,

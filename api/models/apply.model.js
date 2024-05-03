@@ -43,7 +43,7 @@ const applySchema = new mongoose.Schema(
     slug: {
       type: String,
       required: true,
-      unique: true,
+      
     },
     resume: {
       type: String,

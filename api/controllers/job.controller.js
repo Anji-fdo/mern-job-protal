@@ -26,7 +26,15 @@ export const create = async (req, res, next) => {
     const savedJob = await newJob.save();
     res.status(201).json(savedJob);
   } catch (error) {
-    next(error);
+    if (error.code === 11000 && error.keyPattern.jobTitle) {
+      return next(errorHandler(400, 'Job title already exists'));
+    } else if (error.code === 11000 && error.keyPattern.companyName) {
+      return next(errorHandler(400, 'Company name already exists'));
+    } else if (error.code === 11000 && error.keyPattern.slug) {
+      return next(errorHandler(400, 'Slug already exists'));
+    } else {
+      return next(error);
+    }
   }
 };
 

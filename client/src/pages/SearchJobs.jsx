@@ -24,6 +24,7 @@ export default function SearchJobs() {
     const sortFromUrl = urlParams.get('sort');
     const locationFromUrl = urlParams.get('location');
     const categoryFromUrl = urlParams.get('category');
+
     setSidebarData({
       ...sidebarData,
       searchTerms: searchTermsFromUrl || '', // Set default value to empty string
@@ -62,12 +63,25 @@ export default function SearchJobs() {
     navigate(`/searchjobs?${urlParams.toString()}`);
   };
 
-  const handleShowMore = async () => {
-    const numberOfJobs = job.length;
+ const handleShowMore = async () => {
+    const numberOfJobs = course.length;
     const startIndex = numberOfJobs;
     const urlParams = new URLSearchParams(location.search);
     urlParams.set('startIndex', startIndex);
-    fetchJobs(urlParams);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/job/getjobs?${searchQuery}`);
+    if (!res.ok) {
+      return;
+    }
+    if (res.ok) {
+      const data = await res.json();
+      setJobs([...job, ...data.job]);
+      if (data.job.length === 9) {
+        setShowMore(true);
+      } else {
+        setShowMore(false);
+      }
+    }
   };
 
   return (
